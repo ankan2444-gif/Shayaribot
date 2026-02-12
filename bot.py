@@ -1,12 +1,9 @@
+import os
 import requests
 from telegram import Update
-from telegram.ext import (
-    ApplicationBuilder,
-    CommandHandler,
-    ContextTypes
-)
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-BOT_TOKEN = "8564296670:AAEn_1e6wVpbRZ6K8YsiYPeovXOTsUgV2XI"
+BOT_TOKEN = os.environ.get("8564296670:AAH0DnZZXiA8i76OerGIGkdepYSHIAqSYXE")
 API_URL = "https://fast-dev-apis.vercel.app/shayari"
 
 
@@ -22,7 +19,6 @@ async def shayari(update: Update, context: ContextTypes.DEFAULT_TYPE):
         response = requests.get(API_URL, timeout=10)
         data = response.json()
 
-        # Shayari extract (safe way)
         shayari_text = (
             data.get("shayari")
             or data.get("data")
@@ -34,7 +30,7 @@ async def shayari(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"✨ Shayari ✨\n\n{shayari_text}"
         )
 
-    except Exception as e:
+    except Exception:
         await update.message.reply_text(
             "⚠️ API error aa gaya, baad me try karo."
         )
